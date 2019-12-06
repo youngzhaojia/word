@@ -37,7 +37,32 @@ func GetGroupList(c *gin.Context) {
 }
 
 func AddGroup(c *gin.Context) {
+	name := c.DefaultPostForm("name", "未命名")
+	if name == "" {
+		name = "未命名"
+	}
 
+	userId := 8
+
+	groupId, err := models.AddGroup(name, userId)
+	// 失败
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"ret": e.ERROR,
+			"msg": err,
+		})
+		return
+	}
+
+	// 成功
+	data := make(map[string]interface{})
+	data["id"] = groupId
+
+	c.JSON(http.StatusOK, gin.H{
+		"ret":  e.SUCCESS,
+		"msg":  "success",
+		"data": data,
+	})
 }
 
 func EditGroup(c *gin.Context) {
