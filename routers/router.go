@@ -17,13 +17,10 @@ func InitRouter() *gin.Engine {
 
 	apiGroup := r.Group("/api")
 	{
-		apiGroup.GET("/groups", api.GetGroupList)
-		apiGroup.POST("/group", api.AddGroup)
-		apiGroup.PUT("/group/:id", api.EditGroup)
-		apiGroup.DELETE("/group/:id", api.DeleteGroup)
+		apiGroup.GET("/group/list", api.GetGroupList)
+		apiGroup.POST("/group/add", api.AddGroup)
+		apiGroup.POST("/group/update", api.EditGroup)
+		apiGroup.POST("/group/delete", api.DeleteGroup)
 	}
-
-
-
 	return r
 }

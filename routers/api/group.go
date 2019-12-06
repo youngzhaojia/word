@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 	"net/http"
 	"word/models"
 	"word/pkg/e"
@@ -53,7 +54,6 @@ func AddGroup(c *gin.Context) {
 		})
 		return
 	}
-
 	// 成功
 	data := make(map[string]interface{})
 	data["id"] = groupId
@@ -66,9 +66,36 @@ func AddGroup(c *gin.Context) {
 }
 
 func EditGroup(c *gin.Context) {
+	groupId := com.StrTo(c.PostForm("id")).MustInt()
+	newName := c.PostForm("name")
 
+	data := make(map[string]interface{})
+	data["Name"] = newName
+
+	err := models.EditGroup(groupId, data)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"ret": e.ERROR,
+			"msg": err,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"ret": e.SUCCESS,
+		"msg": "success",
+	})
 }
 
 func DeleteGroup(c *gin.Context) {
-
+	groupId := com.StrTo(c.PostForm("id")).MustInt()
+	err := models.DeleteGroup(groupId)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"ret": e.ERROR,
+			"msg": err,
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"ret": e.SUCCESS,
+		"msg": "success",
+	})
 }

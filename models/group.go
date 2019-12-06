@@ -47,3 +47,19 @@ func AddGroup(name string, userId int) (int, error) {
 	}
 	return group.Id, nil
 }
+
+func EditGroup(groupId int, params interface{}) error {
+	err := db.Model(&Group{}).Where("FuiId = ?", groupId).Update(params).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteGroup(groupId int) error {
+	err := db.Where("FuiId = ?", groupId).Delete(&Group{}).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
