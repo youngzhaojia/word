@@ -3,7 +3,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `FuiUserId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `FuiId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `FstrUsername` varchar(128) DEFAULT '' COMMENT '邮箱',
   `FstrPassword` varchar(64) DEFAULT '' COMMENT '密码',
   PRIMARY KEY (`FuiUserId`)
@@ -16,7 +16,7 @@ INSERT INTO `word`.`t_user` (`FstrUsername`, `FstrPassword`) VALUES ('young@qq.c
 -- ----------------------------
 DROP TABLE IF EXISTS `t_group`;
 CREATE TABLE `t_group` (
-  `FuiGroupId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `FuiId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `FstrName` varchar(64) NOT NULL DEFAULT '' COMMENT '分组名称',
   `FuiUserId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `FuiCreateTime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -30,7 +30,7 @@ CREATE TABLE `t_group` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_word`;
 CREATE TABLE `t_word` (
-  `FuiWordId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `FuiId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `FstrContent` varchar(64) NOT NULL DEFAULT '' COMMENT '单词',
   `FuiUserId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `FuiGroupId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '单词分组ID',
