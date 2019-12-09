@@ -15,3 +15,10 @@ func CheckAuth(username string, password string) bool {
 	}
 	return false
 }
+
+func GetUser(username string, password string) User {
+	user := User{}
+
+	db.Where(User{Username: username, Password: password}).First(&user)
+	return user
+}

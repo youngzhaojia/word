@@ -35,6 +35,12 @@ func GetGroupTotal(params interface{}) (count int) {
 	return
 }
 
+func GetGroupDetail(groupId int) Group {
+	group := Group{}
+	db.Where("FuiId = ?", groupId).First(&group)
+	return group
+}
+
 func AddGroup(name string, userId int) (int, error) {
 	group := Group{
 		Name:       name,

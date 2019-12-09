@@ -3,6 +3,7 @@ package jwt
 import (
 	"github.com/gin-gonic/gin"
 	"time"
+	"word/pkg/app"
 	"word/pkg/e"
 	"word/pkg/util"
 )
@@ -21,14 +22,14 @@ func JWT() gin.HandlerFunc {
 			} else if time.Now().Unix() > claims.ExpiresAt {
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			}
+
+			c.Set("userId", claims.UserId)
+			c.Set("username", claims.Username)
 		}
 
 		if code != e.SUCCESS {
-			c.JSON(200, gin.H{
-				"code": code,
-				"msg":  e.GetMsgLabel(code),
-			})
-
+			appG := app.Gin{c}
+			appG.Response(401, code, e.GetMsgLabel(code), nil)
 			c.Abort()
 			return
 		}

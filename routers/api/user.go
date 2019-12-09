@@ -2,35 +2,37 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
 	"word/models"
+	"word/pkg/app"
 	"word/pkg/e"
 	"word/pkg/util"
 )
 
 func Login(c *gin.Context) {
+	appG := app.Gin{C: c}
+
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	code := e.SUCCESS
+	if username == "" || password == "" {
+		appG.ResponseErr(e.ERROR, "参数错误")
+		return
+	}
+
 	data := make(map[string]interface{})
 
-	isExist := models.CheckAuth(username, password)
-	if !isExist {
-		code = e.ERROR_AUTH
+	user := models.GetUser(username, password)
+	if user.Id <= 0 {
+		appG.ResponseErrMsg(e.GetMsgLabel(e.ERROR_AUTH))
+		return
 	} else {
-		token, err := util.GenerateToken(username, password)
+		token, err := util.GenerateToken(user.Id, user.Username)
 		if err != nil {
-			log.Println("ERROR_AUTH_TOKEN:", err)
-			code = e.ERROR_AUTH_TOKEN
+			appG.ResponseErrMsg(e.GetMsgLabel(e.ERROR_AUTH_TOKEN))
+			return
 		} else {
 			data["token"] = token
 		}
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"ret":  code,
-		"msg":  e.GetMsgLabel(code),
-		"data": data,
-	})
+	appG.ResponseSuccess("ok", data)
 }
