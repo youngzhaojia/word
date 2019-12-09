@@ -17,7 +17,7 @@ func GetGroupList(c *gin.Context) {
 	pageNum := util.GetPage(c)
 
 	// 参数
-	params["FuiUserId"], _ = c.Get("userId")
+	params["FuiUserId"] = c.GetInt("userId")
 
 	list, err := models.GetGroupList(pageNum, setting.PageSize, params)
 	if err != nil {
@@ -38,9 +38,9 @@ func AddGroup(c *gin.Context) {
 		name = "未命名"
 	}
 
-	userId, _ := c.Get("userId")
+	userId := c.GetInt("userId")
 
-	groupId, err := models.AddGroup(name, userId.(int))
+	groupId, err := models.AddGroup(name, userId)
 	// 失败
 	if err != nil {
 		appG.ResponseErrMsg("新增失败")
@@ -75,10 +75,10 @@ func DeleteGroup(c *gin.Context) {
 
 	groupId := com.StrTo(c.PostForm("id")).MustInt()
 
-	userId, _ := c.Get("userId")
+	userId := c.GetInt("userId")
 	group := models.GetGroupDetail(groupId)
 
-	if group.UserId != userId.(int) {
+	if group.UserId != userId {
 		appG.ResponseErrMsg("不是你的不能删除")
 		return
 	}
