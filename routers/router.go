@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"word/middleware/jwt"
 	"word/pkg/setting"
 	"word/routers/api"
 )
@@ -15,7 +16,12 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
+	// 登录
+	r.POST("/user/login", api.Login)
+
 	apiGroup := r.Group("/api")
+	apiGroup.Use(jwt.JWT())
+	// 分组
 	{
 		apiGroup.GET("/group/list", api.GetGroupList)
 		apiGroup.POST("/group/add", api.AddGroup)
