@@ -10,6 +10,7 @@ var (
 	Cfg *ini.File
 
 	RunMode string
+	Domain  string
 
 	PageSize  int
 	JwtSecret string
@@ -33,6 +34,7 @@ func init() {
 
 func LoadBase() {
 	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
+	Domain = Cfg.Section("").Key("DOMAIN").String()
 }
 
 func LoadApp() {
