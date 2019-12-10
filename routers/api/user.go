@@ -8,6 +8,7 @@ import (
 	"word/pkg/util"
 )
 
+// 用户登录
 func Login(c *gin.Context) {
 	appG := app.Gin{C: c}
 
@@ -23,10 +24,11 @@ func Login(c *gin.Context) {
 
 	user := models.GetUser(username, password)
 	if user.Id <= 0 {
-		appG.ResponseErrMsg(e.GetMsgLabel(e.ERROR_AUTH))
+		appG.ResponseErrMsg("用户名或密码错误")
 		return
 	} else {
 		token, err := util.GenerateToken(user.Id, user.Username)
+		// token生成失败
 		if err != nil {
 			appG.ResponseErrMsg(e.GetMsgLabel(e.ERROR_AUTH_TOKEN))
 			return

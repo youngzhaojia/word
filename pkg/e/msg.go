@@ -22,7 +22,7 @@ var msgLabels = map[int]string{
 	ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
 	ERROR_AUTH_TOKEN:               "Token生成失败",
-	ERROR_AUTH:                     "用户名、密码错误",
+	ERROR_AUTH:                     "缺少token",
 }
 
 func GetMsgLabel(code int) string {

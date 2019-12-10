@@ -9,6 +9,7 @@ import (
 	"word/pkg/util"
 )
 
+// 分组列表
 func GetGroupList(c *gin.Context) {
 	appG := app.Gin{C: c}
 	params := make(map[string]interface{})
@@ -31,6 +32,7 @@ func GetGroupList(c *gin.Context) {
 	appG.ResponseSuccess("ok", data)
 }
 
+// 分组新增
 func AddGroup(c *gin.Context) {
 	appG := app.Gin{C: c}
 	name := c.PostForm("name")
@@ -53,6 +55,7 @@ func AddGroup(c *gin.Context) {
 	appG.ResponseSuccess("ok", data)
 }
 
+// 分组编辑
 func EditGroup(c *gin.Context) {
 	appG := app.Gin{C: c}
 
@@ -70,6 +73,7 @@ func EditGroup(c *gin.Context) {
 	appG.ResponseSuccess("ok", data)
 }
 
+// 分组删除
 func DeleteGroup(c *gin.Context) {
 	appG := app.Gin{C: c}
 

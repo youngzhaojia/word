@@ -28,5 +28,11 @@ func InitRouter() *gin.Engine {
 		apiGroup.POST("/group/update", api.EditGroup)
 		apiGroup.POST("/group/delete", api.DeleteGroup)
 	}
+	// 单词
+	{
+		apiGroup.GET("/word/list", api.GetWordList)
+		apiGroup.POST("/word/add", api.AddWord)
+		apiGroup.POST("/word/delete", api.DeleteWord)
+	}
 	return r
 }
