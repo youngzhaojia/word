@@ -16,10 +16,10 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
-	// 登录
-	r.POST("/user/login", api.Login)
-
 	apiGroup := r.Group("/api")
+	// 用户登录
+	apiGroup.POST("/user/login", api.Login)
+	// jwt验证
 	apiGroup.Use(jwt.JWT())
 	// 分组
 	{

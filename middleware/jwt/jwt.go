@@ -23,8 +23,10 @@ func JWT() gin.HandlerFunc {
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			}
 
-			c.Set("userId", claims.UserId)
-			c.Set("username", claims.Username)
+			if code == e.SUCCESS {
+				c.Set("userId", claims.UserId)
+				c.Set("username", claims.Username)
+			}
 		}
 
 		if code != e.SUCCESS {
