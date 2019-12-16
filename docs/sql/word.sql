@@ -38,3 +38,8 @@ CREATE TABLE `t_word` (
   PRIMARY KEY (`FuiId`),
   KEY `idx_FuiGroupId` (`FuiGroupId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='单词表';
+
+-- ----------------------------
+-- Table structure for t_word
+-- ----------------------------
+ALTER TABLE t_word add FstrTranslation varchar(64) NOT NULL DEFAULT '' COMMENT '翻译' AFTER FstrContent;
