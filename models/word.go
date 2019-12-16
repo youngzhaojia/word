@@ -26,7 +26,7 @@ func GetWordListByGroupId(groupId int) ([]Word, error) {
 
 func GetWordCountByGroupId(groupId int) int {
 	count := 0
-	db.Where("FuiGroupId = ?", groupId).Count(&count)
+	db.Model(&Word{}).Where("FuiGroupId = ?", groupId).Count(&count)
 	return count
 }
 
