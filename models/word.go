@@ -3,11 +3,12 @@ package models
 import "time"
 
 type Word struct {
-	FuiId      int    `gorm:"column:FuiId;primary_key;AUTO_INCREMENT"json:"id"`
-	Content    string `gorm:"column:FstrContent"json:"content"`
-	UserId     int    `gorm:"column:FuiUserId"json:"userId"`
-	GroupId    int    `gorm:"column:FuiGroupId"json:"groupId"`
-	CreateTime int64  `gorm:"column:FuiCreateTime"json:"createTime"`
+	FuiId       int    `gorm:"column:FuiId;primary_key;AUTO_INCREMENT"json:"id"`
+	Content     string `gorm:"column:FstrContent"json:"content"`
+	Translation string `gorm:"column:FstrTranslation"json:"translation"`
+	UserId      int    `gorm:"column:FuiUserId"json:"userId"`
+	GroupId     int    `gorm:"column:FuiGroupId"json:"groupId"`
+	CreateTime  int64  `gorm:"column:FuiCreateTime"json:"createTime"`
 }
 
 func GetWordListByGroupId(groupId int) ([]Word, error) {
@@ -35,12 +36,13 @@ func GetWordDetail(wordId int) Word {
 	return word
 }
 
-func AddWord(content string, userId int, groupId int) (int, error) {
+func AddWord(content string, translation string, userId int, groupId int) (int, error) {
 	word := Word{
-		Content:    content,
-		UserId:     userId,
-		GroupId:    groupId,
-		CreateTime: time.Now().Unix(),
+		Content:     content,
+		Translation: translation,
+		UserId:      userId,
+		GroupId:     groupId,
+		CreateTime:  time.Now().Unix(),
 	}
 
 	if err := db.Create(&word).Error; err != nil {

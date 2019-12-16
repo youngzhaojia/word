@@ -37,8 +37,9 @@ func AddWord(c *gin.Context) {
 	appG := app.Gin{C: c}
 
 	content := c.DefaultPostForm("content", "")
+	translation := c.DefaultPostForm("translation", "")
 	groupId, _ := com.StrTo(c.PostForm("groupId")).Int()
-	if content == "" || groupId == 0 {
+	if content == "" || translation == "" || groupId == 0 {
 		appG.ResponseErrMsg("参数不能为空")
 		return
 	}
@@ -51,7 +52,7 @@ func AddWord(c *gin.Context) {
 		return
 	}
 
-	wordId, err := models.AddWord(content, userId, groupId)
+	wordId, err := models.AddWord(content, translation, userId, groupId)
 	if err != nil {
 		appG.ResponseErrMsg("新增单词出错")
 		return
