@@ -15,15 +15,27 @@ func GetGroupList(c *gin.Context) {
 	params := make(map[string]interface{})
 	data := make(map[string]interface{})
 
-	pageNum := util.GetPage(c)
-
 	// 参数
-	params["FuiUserId"] = c.GetInt("userId")
+	pageNum := util.GetPage(c)
+	userId := c.GetInt("userId")
+	params["FuiUserId"] = userId
 
-	list, err := models.GetGroupList(pageNum, setting.PageSize, params)
+	// 分组列表数据
+	groupList, err := models.GetGroupList(pageNum, setting.PageSize, params)
 	if err != nil {
 		appG.ResponseErrMsg("数据查询出错")
 		return
+	}
+	// 分组单词数量
+	groupWordCount := models.GetGroupWordCountByUserId(userId)
+
+	// 拼装数据
+	list := make([]interface{}, len(groupList))
+	for key, groupItem := range groupList{
+		listItem := make(map[string]interface{})
+		listItem["group"] = groupItem
+		listItem["wordNum"] = groupWordCount[groupItem.Id]
+		list[key] = listItem
 	}
 
 	data["list"] = list

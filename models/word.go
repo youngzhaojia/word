@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Word struct {
 	FuiId       int    `gorm:"column:FuiId;primary_key;AUTO_INCREMENT"json:"id"`
@@ -53,4 +55,25 @@ func AddWord(content string, translation string, userId int, groupId int) (int, 
 
 func DeleteWord(wordId int) error {
 	return db.Where("FuiId = ?", wordId).Delete(&Word{}).Error
+}
+
+// 根据用户id获取每个分组的单词数量
+type GroupWordCount struct {
+	GroupId int
+	Num     int
+}
+
+// 根据用户id获取每个分组的单词数量
+func GetGroupWordCountByUserId(userId int) map[int]int {
+	groupWordCount := make(map[int]int)
+
+	var data []GroupWordCount
+	db.Table("t_word").Select(
+		"FuiGroupId as group_id, count(FuiId) as num").Where(
+		"FuiUserId = ?", userId).Group("FuiGroupId").Scan(&data)
+	for _, item := range data {
+		groupWordCount[item.GroupId] = item.Num
+	}
+
+	return groupWordCount
 }
