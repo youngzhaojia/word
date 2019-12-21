@@ -12,21 +12,31 @@ func GetWordList(c *gin.Context) {
 	appG := app.Gin{C: c}
 	groupId, _ := com.StrTo(c.Query("groupId")).Int()
 
-	group := models.GetGroupDetail(groupId)
 	userId := c.GetInt("userId")
-	// 验证是否是该分组用户
-	if group.UserId != userId {
-		appG.ResponseErrMsg("参数错误")
-		return
+
+	if groupId != -1 {
+		group := models.GetGroupDetail(groupId)
+		// 验证是否是该分组用户
+		if group.UserId != userId {
+			appG.ResponseErrMsg("参数错误")
+			return
+		}
 	}
 
 	data := make(map[string]interface{})
-	groupList, err := models.GetWordListByGroupId(groupId)
+	var wordList []models.Word
+	var err error
+	if groupId == -1 {
+		wordList, err = models.GetAllWordListByUserId(userId)
+	} else {
+		wordList, err = models.GetWordListByGroupId(groupId)
+	}
+
 	if err != nil {
 		appG.ResponseErrMsg("数据出错")
 		return
 	}
-	data["list"] = groupList
+	data["list"] = wordList
 	data["count"] = models.GetWordCountByGroupId(groupId)
 
 	appG.ResponseSuccess("ok", data)

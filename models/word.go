@@ -77,3 +77,17 @@ func GetGroupWordCountByUserId(userId int) map[int]int {
 
 	return groupWordCount
 }
+
+// 根据userId获取用户所有的单词
+func GetAllWordListByUserId(userId int) ([]Word, error){
+	var (
+		wordList []Word
+		err      error
+	)
+
+	err = db.Where("FuiUserId = ?", userId).Find(&wordList).Error
+	if err != nil {
+		return nil, err
+	}
+	return wordList, nil
+}
