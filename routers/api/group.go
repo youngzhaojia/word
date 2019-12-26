@@ -89,7 +89,7 @@ func EditGroup(c *gin.Context) {
 func DeleteGroup(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	groupId := com.StrTo(c.PostForm("groupId")).MustInt()
+	groupId := com.StrTo(c.PostForm("id")).MustInt()
 
 	userId := c.GetInt("userId")
 	group := models.GetGroupDetail(groupId)
