@@ -17,28 +17,20 @@ type Model struct {
 }
 
 func init() {
-	sec, err := setting.Cfg.GetSection("database")
-
-	if err != nil {
-		log.Fatalf("get database config fail : %v", sec)
-	}
-
-	dbType := sec.Key("TYPE").String()
-	dbName := sec.Key("NAME").String()
-	user := sec.Key("USER").String()
-	password := sec.Key("PASSWORD").String()
-	host := sec.Key("HOST").String()
-	tablePrefix := sec.Key("TABLE_PREFIX").String()
-
-	db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		user, password, host, dbName))
+	var err error
+	db, err = gorm.Open(setting.DatabaseSetting.Type,
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+			setting.DatabaseSetting.User,
+			setting.DatabaseSetting.Password,
+			setting.DatabaseSetting.Host,
+			setting.DatabaseSetting.Name))
 	if err != nil {
 		log.Println(err)
 	}
 
 	// 前缀
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return tablePrefix + defaultTableName
+		return setting.DatabaseSetting.TablePrefix + defaultTableName
 	}
 
 	// 默认把你的struct中的大写字母转换为小写并加上“s”,

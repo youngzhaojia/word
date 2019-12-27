@@ -21,7 +21,7 @@ func GetGroupList(c *gin.Context) {
 	params["FuiUserId"] = userId
 
 	// 分组列表数据
-	groupList, err := models.GetGroupList(pageNum, setting.PageSize, params)
+	groupList, err := models.GetGroupList(pageNum, setting.AppSetting.PageSize, params)
 	if err != nil {
 		appG.ResponseErrMsg("数据查询出错")
 		return

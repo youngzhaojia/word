@@ -6,10 +6,10 @@ import (
 	"word/pkg/setting"
 )
 
-var jwtSecret = []byte(setting.JwtSecret)
+var jwtSecret = []byte(setting.AppSetting.JwtSecret)
 
 type Claims struct {
-	UserId int `json:userId`
+	UserId   int    `json:userId`
 	Username string `json:username`
 	jwt.StandardClaims
 }
@@ -19,7 +19,7 @@ func GenerateToken(userId int, username string) (string, error) {
 	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
-		UserId: userId,
+		UserId:   userId,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
