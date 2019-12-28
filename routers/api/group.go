@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
 	"word/models"
@@ -31,9 +32,11 @@ func GetGroupList(c *gin.Context) {
 
 	// 拼装数据
 	list := make([]interface{}, len(groupList))
-	for key, groupItem := range groupList{
+	for key, groupItem := range groupList {
 		listItem := make(map[string]interface{})
-		listItem["group"] = groupItem
+
+		itemJson, _ := json.Marshal(groupItem)
+		json.Unmarshal(itemJson, &listItem)
 		listItem["wordNum"] = groupWordCount[groupItem.Id]
 		list[key] = listItem
 	}
